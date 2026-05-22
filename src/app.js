@@ -14,7 +14,7 @@ app.use("/api/v1/users", require("./routes/users.route"))
 app.use("/api/v1/materials", require("./routes/materials.route"))
 app.use("/api/v1/loans", require("./routes/loans.route"))
 app.use("/api/v1/reservations", require("./routes/reservations.route"))
-
+app.use("/api/v1/reviews", require("./routes/reviews.route"))
 
 app.use(errorHandler);
 app.use(notFound);
