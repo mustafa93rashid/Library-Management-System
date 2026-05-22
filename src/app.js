@@ -13,6 +13,7 @@ app.get("/api/health", (req, res) => {res.status(200).json("OK")})
 app.use("/api/v1/users", require("./routes/users.route"))
 app.use("/api/v1/materials", require("./routes/materials.route"))
 app.use("/api/v1/loans", require("./routes/loans.route"))
+app.use("/api/v1/reservations", require("./routes/reservations.route"))
 
 
 app.use(errorHandler);
