@@ -1,4 +1,4 @@
-const Material = require("../models/Materials");
+const Material = require("../models/Material");
 
 class MaterialsController {
   getAll = async (req, res) => {
