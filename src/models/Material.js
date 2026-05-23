@@ -11,10 +11,15 @@ const materialSchema = new mongoose.Schema(
       type: String,
       enum: ["book", "magazine", "cd", "map"],
       required: true,
+      lowercase: true,
+      trim: true,
     },
 
-
-
+    category:{
+      type: String,
+      required: true,
+    },
+    
     totalCopies: {
       type: Number,
       required: true,

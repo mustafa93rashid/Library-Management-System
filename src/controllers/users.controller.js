@@ -1,11 +1,12 @@
 const User = require("../models/User");
 
 class UsersController {
-    // get all users
+  // get all users
   getAll = async (req, res) => {
     const users = await User.find();
 
     res.status(200).json({
+      message: "get all users successfully",
       data: users,
     });
   };
@@ -15,6 +16,7 @@ class UsersController {
     const id = req.params.id;
     const user = await User.findById(id);
     res.status(200).json({
+      message: `get user by id ${id} successfully`,
       data: user,
     });
   };
@@ -33,9 +35,11 @@ class UsersController {
     const id = req.params.id;
 
     const user = await User.findByIdAndUpdate(id, req.userData, { new: true });
+    const updatedFields = Object.keys(req.body);
 
     res.status(200).json({
-      message: "User updated successfully",
+      message: `${updatedFields.length} field(s) updated successfully`,
+      updatedFields,
       data: user,
     });
   };
@@ -43,9 +47,12 @@ class UsersController {
   // Delete user
   remove = async (req, res) => {
     const id = req.params.id;
+
+    const user = await User.findById(id);
     await User.findByIdAndDelete(id);
+
     res.status(200).json({
-      message: "User deleted successfully",
+    message: `${user.role} ${user.name} deleted successfully`,
     });
   };
 }
