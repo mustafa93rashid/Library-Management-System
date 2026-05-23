@@ -16,6 +16,12 @@ class MaterialsController {
     const id = req.params.id;
 
     const material = await Material.findById(id);
+
+    if (!material) {
+      return res.status(404).json({
+        message: `Material with id ${id} not found`,
+      });
+    }
     
     res.status(200).json({
       message: `get material by id ${id} successfully`,
@@ -39,6 +45,12 @@ class MaterialsController {
 
     const material = await Material.findByIdAndUpdate(id, req.materialData);
     const updatedFields = Object.keys(req.body);
+
+    if (!material) {
+      return res.status(404).json({
+        message: `Material with id ${id} not found`,
+      });
+    }
 
     res.status(200).json({
       message: `${updatedFields.length} field(s) updated successfully`,

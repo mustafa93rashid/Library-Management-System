@@ -17,7 +17,6 @@ const materialSchema = new mongoose.Schema(
 
     category:{
       type: String,
-      required: true,
     },
     
     totalCopies: {
@@ -65,5 +64,9 @@ const materialSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+materialSchema.methods.isAvailable = function () {
+  return this.availableCopies > 0;
+};
 
 module.exports = mongoose.model("Material", materialSchema);

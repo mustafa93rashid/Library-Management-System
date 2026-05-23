@@ -15,6 +15,13 @@ class UsersController {
   getById = async (req, res) => {
     const id = req.params.id;
     const user = await User.findById(id);
+
+      if (!user) {
+        return res.status(404).json({
+          message: `User with id ${id} not found`,
+        });
+      }
+
     res.status(200).json({
       message: `get user by id ${id} successfully`,
       data: user,
@@ -36,6 +43,12 @@ class UsersController {
 
     const user = await User.findByIdAndUpdate(id, req.userData, { new: true });
     const updatedFields = Object.keys(req.body);
+
+    if (!user) {
+      return res.status(404).json({
+        message: `User with id ${id} not found`,
+      });
+    }
 
     res.status(200).json({
       message: `${updatedFields.length} field(s) updated successfully`,

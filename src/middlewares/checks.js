@@ -25,9 +25,7 @@ const checkMember = async (req, res, next) => {
 
 // Check Librarian
 const checkLibrarian = async (req, res, next) => {
-  const librarian = await User.findById(
-    req.body.librarianId
-  );
+  const librarian = await User.findById(req.body.librarianId);
 
   if (!librarian) {
     return res.status(404).json({
@@ -63,7 +61,7 @@ const checkMaterial = async (req, res, next) => {
 
 // Check Available Copies
 const checkAvailableCopies = (req, res, next) => {
-  if (req.material.availableCopies <= 0) {
+  if (!req.material.isAvailable()) {
     return res.status(400).json({
       message: "No available copies",
     });
