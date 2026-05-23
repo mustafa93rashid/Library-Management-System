@@ -5,6 +5,7 @@ const prepareUserData = (req, res, next) => {
     phone,
     password,
     role,
+    registeredAt,
     address,
     dateOfBirth,
     membershipNumber,
@@ -17,6 +18,7 @@ const prepareUserData = (req, res, next) => {
     phone,
     password,
     role,
+    registeredAt,
   };
 
   if (role === "member") {

@@ -1,6 +1,7 @@
 const User = require("../models/User");
 
 class UsersController {
+    // get all users
   getAll = async (req, res) => {
     const users = await User.find();
 
@@ -9,6 +10,7 @@ class UsersController {
     });
   };
 
+  // Get user by ID
   getById = async (req, res) => {
     const id = req.params.id;
     const user = await User.findById(id);
@@ -17,6 +19,7 @@ class UsersController {
     });
   };
 
+  // Create user
   add = async (req, res) => {
     const user = await User.create(req.userData);
     res.status(201).json({
@@ -25,10 +28,11 @@ class UsersController {
     });
   };
 
+  // Update user
   update = async (req, res) => {
     const id = req.params.id;
 
-    const user = await User.findByIdAndUpdate(id, req.userData);
+    const user = await User.findByIdAndUpdate(id, req.userData, { new: true });
 
     res.status(200).json({
       message: "User updated successfully",
@@ -36,6 +40,7 @@ class UsersController {
     });
   };
 
+  // Delete user
   remove = async (req, res) => {
     const id = req.params.id;
     await User.findByIdAndDelete(id);

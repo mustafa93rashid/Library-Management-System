@@ -5,8 +5,8 @@ class ReservationsController {
   // Get all reservations
   getAll = async (req, res) => {
     const reservations = await Reservation.find()
-      .populate("memberId")
-      .populate("materialId");
+      .populate("memberId", "name email role")
+      .populate("materialId", "title category materialType");
 
     res.status(200).json({
       data: reservations,
@@ -15,11 +15,10 @@ class ReservationsController {
 
   // Get reservation by id
   getById = async (req, res) => {
-    const reservation = await Reservation.findById(
-      req.params.id
-    )
-      .populate("memberId")
-      .populate("materialId");
+    const id = req.params.id;
+    const reservation = await Reservation.findById(id)
+      .populate("memberId", "name email role")
+      .populate("materialId", "title category materialType");
 
     if (!reservation) {
       return res.status(404).json({
@@ -37,23 +36,19 @@ class ReservationsController {
     // Material must be unavailable
     if (req.material.availableCopies > 0) {
       return res.status(400).json({
-        message:
-          "Reservation is allowed only when availableCopies = 0",
+        message: "Reservation is allowed only when availableCopies = 0",
       });
     }
 
     // Queue priority
-    const reservationsCount =
-      await Reservation.countDocuments({
-        materialId: req.material._id,
-        status: "active",
-      });
+    const reservationsCount = await Reservation.countDocuments({
+      materialId: req.material._id,
+      status: "active",
+    });
 
     const autoCancelAfter = new Date();
-
-    autoCancelAfter.setDate(
-      autoCancelAfter.getDate() + 3
-    );
+ 
+    autoCancelAfter.setDate(autoCancelAfter.getDate() + 3);
 
     const reservation = await Reservation.create({
       memberId: req.member._id,
@@ -74,8 +69,8 @@ class ReservationsController {
 
   // Cancel reservation
   cancelReservation = async (req, res) => {
-    const reservation =
-      await Reservation.findById(req.params.id);
+    const id = req.params.id;
+    const reservation = await Reservation.findById(id);
 
     if (!reservation) {
       return res.status(404).json({
@@ -95,8 +90,8 @@ class ReservationsController {
 
   // Expire reservation
   expireReservation = async (req, res) => {
-    const reservation =
-      await Reservation.findById(req.params.id);
+    const id = req.params.id;
+    const reservation = await Reservation.findById(id);
 
     if (!reservation) {
       return res.status(404).json({
@@ -116,10 +111,8 @@ class ReservationsController {
 
   // Delete reservation
   remove = async (req, res) => {
-    const reservation =
-      await Reservation.findByIdAndDelete(
-        req.params.id
-      );
+    const id = req.params.id;
+    const reservation = await Reservation.findByIdAndDelete(id);
 
     if (!reservation) {
       return res.status(404).json({
@@ -128,8 +121,7 @@ class ReservationsController {
     }
 
     res.status(200).json({
-      message:
-        "Reservation deleted successfully",
+      message: "Reservation deleted successfully",
     });
   };
 }

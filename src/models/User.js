@@ -30,7 +30,8 @@ const userSchema = new mongoose.Schema(
       type: String,
       enum: {
         values: ["member", "librarian", "manager"],
-        message: "Role must be member, librarian, or manager",
+        message:
+          "{VALUE} is not supported.Role must be member, librarian, or manager",
       },
       required: [true, "Role is required"],
     },
@@ -64,11 +65,6 @@ const userSchema = new mongoose.Schema(
         trim: true,
       },
     },
-
-    // isActive: {
-    //   type: Boolean,
-    //   default: true,
-    // },
   },
   { timestamps: true },
 );

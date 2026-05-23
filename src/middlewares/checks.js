@@ -35,10 +35,7 @@ const checkLibrarian = async (req, res, next) => {
     });
   }
 
-  if (
-    librarian.role !== "librarian" &&
-    librarian.role !== "manager"
-  ) {
+  if (librarian.role !== "librarian" && librarian.role !== "manager") {
     return res.status(400).json({
       message: "User must be librarian or manager",
     });
@@ -51,9 +48,7 @@ const checkLibrarian = async (req, res, next) => {
 
 // Check Material
 const checkMaterial = async (req, res, next) => {
-  const material = await Material.findById(
-    req.body.materialId
-  );
+  const material = await Material.findById(req.body.materialId);
 
   if (!material) {
     return res.status(404).json({

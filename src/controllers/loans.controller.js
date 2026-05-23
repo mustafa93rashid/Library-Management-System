@@ -15,7 +15,8 @@ class LoansController {
   };
 
   getById = async (req, res) => {
-    const loan = await Loan.findById(req.params.id)
+    const id = req.params.id;
+    const loan = await Loan.findById(id)
       .populate("memberId")
       .populate("materialId")
       .populate("librarianId");
