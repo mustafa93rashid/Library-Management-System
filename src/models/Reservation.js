@@ -28,6 +28,7 @@ const reservationSchema = new mongoose.Schema(
       enum: ["active", "notified", "cancelled", "expired"],
       default: "active",
     },
+
     memberId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",

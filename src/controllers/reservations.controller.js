@@ -33,36 +33,42 @@ class ReservationsController {
 
   // Create reservation
   add = async (req, res) => {
-    // Material must be unavailable
     if (req.material.availableCopies > 0) {
       return res.status(400).json({
         message: "Reservation is allowed only when availableCopies = 0",
       });
     }
+    const existingReservation = await Reservation.findOne({
+      memberId: req.member._id,
+      materialId: req.material._id,
+      status: "active",
+    });
 
-    // Queue priority
+    if (existingReservation) {
+      return res.status(400).json({
+        message: "Member already has an active reservation for this material",
+      });
+    }
     const reservationsCount = await Reservation.countDocuments({
       materialId: req.material._id,
       status: "active",
     });
 
     const autoCancelAfter = new Date();
- 
+
     autoCancelAfter.setDate(autoCancelAfter.getDate() + 3);
 
     const reservation = await Reservation.create({
-      memberId: req.member._id,
-      materialId: req.material._id,
+      memberId: req.member.id, 
+      materialId: req.material.id,
 
       queuePriority: reservationsCount + 1,
-
       notifyWhenAvailable: true,
-
       autoCancelAfter,
     });
 
     res.status(201).json({
-      message: "Reservation created successfully",
+      message: `Reservation to ${req.member.name} created successfully`,
       data: reservation,
     });
   };
@@ -78,6 +84,11 @@ class ReservationsController {
       });
     }
 
+    if (reservation.status !== "active") {
+      return res.status(400).json({
+        message: `Only active reservations can be cancelled. Current status: ${reservation.status}`,
+      });
+    }
     reservation.status = "cancelled";
 
     await reservation.save();
