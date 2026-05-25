@@ -11,6 +11,14 @@ const {checkMember,checkLibrarian,checkMaterial,checkAvailableCopies,getLoan} = 
 
 router.get("/", asyncHandler(loansController.getAll));
 
+router.get("/status/active", asyncHandler(loansController.getActiveLoans));
+
+router.get("/status/cancelled", asyncHandler(loansController.getCancelledLoans));
+
+router.get("/status/paid", asyncHandler(loansController.getPaidFineLoans));
+
+router.get("/status/overdue", asyncHandler(loansController.getOverdueLoans));
+
 router.get("/:id", [id], asyncHandler(loansController.getById));
 
 router.post( "/",[checkMember, checkLibrarian,checkMaterial,checkAvailableCopies,prepareLoanData,], asyncHandler(loansController.add),);

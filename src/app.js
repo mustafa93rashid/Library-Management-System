@@ -1,7 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const app = express();
-
+const mongoose = require("mongoose");
 
 app.use(express.json());
 app.use(require("morgan")("dev"));
@@ -19,10 +19,8 @@ app.use("/api/v1/reviews", require("./routes/reviews.route"))
 app.use(errorHandler);
 app.use(notFound);
 
-
 const PORT = process.env.PORT || 3000;
 const MONGODB_URL = process.env.MONGODB_URL;
-const mongoose = require("mongoose");
 
 mongoose.connect(MONGODB_URL)
     .then(() => {

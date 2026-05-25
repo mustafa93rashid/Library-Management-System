@@ -6,7 +6,7 @@ class UsersController {
     const users = await User.find();
 
     res.status(200).json({
-      message: "get all users successfully",
+      message: `get ${users.length} users successfully`,
       data: users,
     });
   };
@@ -16,14 +16,14 @@ class UsersController {
     const id = req.params.id;
     const user = await User.findById(id);
 
-      if (!user) {
-        return res.status(404).json({
-          message: `User with id ${id} not found`,
-        });
-      }
+    if (!user) {
+      return res.status(404).json({
+        message: `User with id ${id} not found`,
+      });
+    }
 
     res.status(200).json({
-      message: `get user by id ${id} successfully`,
+      message: `get user ${user.name} by id ${id} successfully`,
       data: user,
     });
   };
@@ -32,7 +32,7 @@ class UsersController {
   add = async (req, res) => {
     const user = await User.create(req.userData);
     res.status(201).json({
-      message: "User created successfully",
+      message: `${user.name} created successfully`,
       data: user,
     });
   };
@@ -51,7 +51,7 @@ class UsersController {
     }
 
     res.status(200).json({
-      message: `${updatedFields.length} field(s) updated successfully`,
+      message: `${updatedFields.length} field(s) of ${user.name} updated successfully`,
       updatedFields,
       data: user,
     });
@@ -61,11 +61,15 @@ class UsersController {
   remove = async (req, res) => {
     const id = req.params.id;
 
-    const user = await User.findById(id);
-    await User.findByIdAndDelete(id);
+    const user = await User.findByIdAndDelete(id);
 
+    if (!user) {
+      return res.status(404).json({
+        message: `User with id ${id} not found`,
+      });
+    }
     res.status(200).json({
-    message: `${user.role} ${user.name} deleted successfully`,
+      message: `${user.role} ${user.name} deleted successfully`,
     });
   };
 }

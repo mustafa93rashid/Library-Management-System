@@ -4,7 +4,8 @@ const Loan = require("../models/Loan");
 
 // Check Member
 const checkMember = async (req, res, next) => {
-  const member = await User.findById(req.body.memberId);
+  const memberId = req.body.memberId;
+  const member = await User.findById(memberId);
 
   if (!member) {
     return res.status(404).json({
@@ -25,7 +26,8 @@ const checkMember = async (req, res, next) => {
 
 // Check Librarian
 const checkLibrarian = async (req, res, next) => {
-  const librarian = await User.findById(req.body.librarianId);
+  const librarianId = req.body.librarianId;
+  const librarian = await User.findById(librarianId);
 
   if (!librarian) {
     return res.status(404).json({
@@ -46,7 +48,8 @@ const checkLibrarian = async (req, res, next) => {
 
 // Check Material
 const checkMaterial = async (req, res, next) => {
-  const material = await Material.findById(req.body.materialId);
+  const materialId = req.body.materialId;
+  const material = await Material.findById(materialId);
 
   if (!material) {
     return res.status(404).json({
@@ -72,11 +75,12 @@ const checkAvailableCopies = (req, res, next) => {
 
 // Get Loan
 const getLoan = async (req, res, next) => {
-  const loan = await Loan.findById(req.params.id);
+  const id = req.params.id;
+  const loan = await Loan.findById(id);
 
   if (!loan) {
     return res.status(404).json({
-      message: "Loan not found",
+      message: `Loan with id ${id} not found`,
     });
   }
 

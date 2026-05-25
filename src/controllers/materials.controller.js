@@ -6,7 +6,7 @@ class MaterialsController {
     const materials = await Material.find();
 
     res.status(200).json({
-      message: "get all materials successfully",
+      message: `get ${materials.length} materials successfully`,
       data: materials,
     });
   };
@@ -24,7 +24,7 @@ class MaterialsController {
     }
     
     res.status(200).json({
-      message: `get material by id ${id} successfully`,
+      message: `get material ${material.title} by id ${id} successfully`,
       data: material,
     });
   };
@@ -34,7 +34,7 @@ class MaterialsController {
     const material = await Material.create(req.materialData);
 
     res.status(201).json({
-      message: "Material created successfully",
+      message: `${material.title} created successfully`,
       data: material,
     });
   };
@@ -43,7 +43,7 @@ class MaterialsController {
   update = async (req, res) => {
     const id = req.params.id;
 
-    const material = await Material.findByIdAndUpdate(id, req.materialData);
+    const material = await Material.findByIdAndUpdate(id, req.materialData , { new: true });
     const updatedFields = Object.keys(req.body);
 
     if (!material) {
@@ -53,7 +53,7 @@ class MaterialsController {
     }
 
     res.status(200).json({
-      message: `${updatedFields.length} field(s) updated successfully`,
+      message: `${updatedFields.length} field(s) of ${material.title} updated successfully`,
       updatedFields,
       data: material,
     });

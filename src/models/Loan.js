@@ -5,6 +5,7 @@ const loanSchema = new mongoose.Schema(
     borrowDate: {
       type: Date,
       default: Date.now,
+      required: true,
     },
 
     dueDate: {
@@ -42,7 +43,7 @@ const loanSchema = new mongoose.Schema(
         default: "unpaid",
       },
     },
-    
+
     memberId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
