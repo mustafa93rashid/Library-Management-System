@@ -7,6 +7,7 @@ class ReviewsController {
       .populate("materialId", "title category materialType");
 
     res.status(200).json({
+      message: `get ${reviews.length} reviews successfully`,
       data: reviews,
     });
   };
@@ -24,6 +25,7 @@ class ReviewsController {
     }
 
     res.status(200).json({
+      message: `get review by id ${id} successfully`,
       data: review,
     });
   };
@@ -40,7 +42,7 @@ class ReviewsController {
     });
 
     res.status(201).json({
-      message: "Review created successfully",
+      message: `Review created successfully`,
       data: review,
     });
   };
@@ -70,7 +72,7 @@ class ReviewsController {
     await review.save();
 
     res.status(200).json({
-      message: "Review updated successfully",
+      message: `${updatedFields.length} field(s) of ${review.memberId} updated successfully`,
       data: review,
     });
   };
